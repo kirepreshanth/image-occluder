@@ -1,6 +1,8 @@
 '''
 This is the script that was used to create the split dataset from the original cityscapes dataset.
 
+The output is a dataset of images that are 1/3 of the original image and 50% of the original resolution.
+
 '''
 
 import glob
@@ -9,7 +11,7 @@ import os
 import cv2 as cv
 from cv2 import IMREAD_COLOR, WINDOW_AUTOSIZE, FILLED
 
-cityscapes_dir = "/home/kirepreshanth/Documents/Dissertation/datasets/cityscapes"
+cityscapes_dir = "datasets/cityscapes"
 gtFine_leftImg8bit_dir = cityscapes_dir + "/gtFine_trainvaltest/leftImg8bit"
 split_dataset_dir = cityscapes_dir + "/split_dataset/leftImg8bit/"
 
@@ -17,9 +19,12 @@ def creatDirectoryIfNotExists(directory):
     if not os.path.exists(directory):
         os.mkdir(directory)
 
+# Create the Split dataset Directory
 creatDirectoryIfNotExists(split_dataset_dir)
 
+# Loop through the images in the original Cityscapes dataset.
 for filePath in glob.glob(gtFine_leftImg8bit_dir + "/**/**/*.png"):
+    
     pathParts = filePath.split('/')
     
     fileName = pathParts[-1]
@@ -30,7 +35,8 @@ for filePath in glob.glob(gtFine_leftImg8bit_dir + "/**/**/*.png"):
     fileName_split1 = name + "_01." + ext
     fileName_split2 = name + "_02." + ext
     fileName_split3 = name + "_03." + ext
-        
+    
+    # Create output subdirectory.
     output_dir = split_dataset_dir + data_split + "/" + city + "/"
     creatDirectoryIfNotExists(split_dataset_dir + data_split)
     creatDirectoryIfNotExists(output_dir)
